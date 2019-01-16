@@ -10,8 +10,7 @@ import { ThfMenuItem } from '@totvs/thf-ui';
 export class AppComponent {
 
   readonly menus: Array<ThfMenuItem> = [
-    { label: 'Home', link: '/home' },
-    { label: 'Users', link: '/users' },
+    { label: 'Home', link: '/home' }
   ];
 
 }
