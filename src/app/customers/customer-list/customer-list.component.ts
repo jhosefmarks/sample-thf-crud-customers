@@ -19,7 +19,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     { property: 'name' },
     { property: 'nickname' },
     { property: 'email', type: 'link', action: this.sendMail.bind(this) },
-    { property: 'birthdate', type: 'date', format: 'dd/MM/yyyy', width: '100px' }
+    { property: 'birthdate', type: 'date', format: 'dd/MM/yyyy', width: '100px' },
+    { property: 'genre', type: 'subtitle', width: '80px', subtitles: [
+      { value: 'Female', color: 'color-05', content: 'F', label: 'Feminino' },
+      { value: 'Male', color: 'color-02', content: 'M', label: 'Masculino' },
+      { value: 'Other', color: 'color-08', content: 'O', label: 'Outros' },
+    ]}
   ];
 
   public customers: Array<any> = [];
