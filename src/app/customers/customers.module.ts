@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { SharedModule } from './../shared/shared.module';
+
 import { CustomersRoutingModule } from './customers-routing.module';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 
@@ -8,6 +10,9 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
   declarations: [CustomerListComponent],
   imports: [
     CommonModule,
+
+    SharedModule,
+
     CustomersRoutingModule
   ]
 })
