@@ -18,7 +18,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   public readonly columns: ThfTableColumn = [
     { property: 'name' },
     { property: 'nickname' },
-    { property: 'email', type: 'link', action: this.sendMail.bind(this) }
+    { property: 'email', type: 'link', action: this.sendMail.bind(this) },
+    { property: 'birthdate', type: 'date', format: 'dd/MM/yyyy', width: '100px' }
   ];
 
   public customers: Array<any> = [];
