@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
 
+import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
+
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
@@ -12,6 +14,11 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
   private customersSub: Subscription;
+
+  public readonly columns: ThfTableColumn = [
+    { property: 'name' },
+    { property: 'nickname' },
+  ];
 
   public customers: Array<any> = [];
 
