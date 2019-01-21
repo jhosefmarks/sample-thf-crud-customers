@@ -18,6 +18,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   public readonly columns: ThfTableColumn = [
     { property: 'name' },
     { property: 'nickname' },
+    { property: 'email', type: 'link', action: this.sendMail.bind(this) }
   ];
 
   public customers: Array<any> = [];
@@ -33,6 +34,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.customersSub.unsubscribe();
+  }
+
+  private sendMail(email, customer) {
+    const body = `Olá ${customer.name}, gostariamos de agradecer seu contato.`;
+    const subject = 'Contato';
+
+    window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_self');
   }
 
 }
