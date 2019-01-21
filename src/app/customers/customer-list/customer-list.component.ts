@@ -25,7 +25,11 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       { value: 'Male', color: 'color-02', content: 'M', label: 'Masculino' },
       { value: 'Other', color: 'color-08', content: 'O', label: 'Outros' },
     ]},
-    { property: 'city' }
+    { property: 'city' },
+    { property: 'status', type: 'label', labels: [
+      { value: 'Active', color: 'success', label: 'Ativo' },
+      { value: 'Inactive', color: 'danger', label: 'Inativo' }
+    ]}
   ];
 
   public customers: Array<any> = [];
