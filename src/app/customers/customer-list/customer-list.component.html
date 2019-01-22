@@ -1,0 +1,13 @@
+<thf-page-list
+  t-title="Listagem de clientes">
+
+  <thf-table
+    t-sort="true"
+    [t-columns]="columns"
+    [t-items]="customers"
+    [t-loading]="loading"
+    [t-show-more-disabled]="!hasNext"
+    (t-show-more)="loadData()">
+  </thf-table>
+
+</thf-page-list>
