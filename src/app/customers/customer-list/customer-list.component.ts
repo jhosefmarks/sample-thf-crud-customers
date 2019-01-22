@@ -14,6 +14,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
   private customersSub: Subscription;
+  private page: number = 1;
 
   public readonly columns: Array<ThfTableColumn> = [
     { property: 'name', label: 'Nome' },
@@ -54,12 +55,15 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   public loadData() {
+    const urlWithPagination = `${this.url}?page=${this.page}`;
+
     this.loading = true;
 
-    this.customersSub = this.httpClient.get(this.url)
+    this.customersSub = this.httpClient.get(urlWithPagination)
       .subscribe((response: { hasNext: boolean, items: Array<any>}) => {
-        this.customers = response.items;
+        this.customers = [...this.customers, ...response.items];
         this.hasNext = response.hasNext;
+        this.page++;
         this.loading = false;
       });
   }
