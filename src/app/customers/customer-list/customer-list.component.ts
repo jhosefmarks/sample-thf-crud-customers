@@ -33,16 +33,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ];
 
   public customers: Array<any> = [];
+  public hasNext: boolean = false;
   public loading: boolean = true;
 
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
-    this.customersSub = this.httpClient.get(this.url)
-      .subscribe((response: { hasNext: boolean, items: Array<any>}) => {
-        this.customers = response.items;
-        this.loading = false;
-      });
+    this.loadData();
   }
 
   ngOnDestroy() {
@@ -54,6 +51,17 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     const subject = 'Contato';
 
     window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_self');
+  }
+
+  public loadData() {
+    this.loading = true;
+
+    this.customersSub = this.httpClient.get(this.url)
+      .subscribe((response: { hasNext: boolean, items: Array<any>}) => {
+        this.customers = response.items;
+        this.hasNext = response.hasNext;
+        this.loading = false;
+      });
   }
 
 }

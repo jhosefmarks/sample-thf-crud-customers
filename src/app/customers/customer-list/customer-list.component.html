@@ -5,7 +5,9 @@
     t-sort="true"
     [t-columns]="columns"
     [t-items]="customers"
-    [t-loading]="loading">
+    [t-loading]="loading"
+    [t-show-more-disabled]="!hasNext"
+    (t-show-more)="loadData()">
   </thf-table>
 
 </thf-page-list>
