@@ -15,17 +15,17 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
   private customersSub: Subscription;
 
-  public readonly columns: ThfTableColumn = [
-    { property: 'name' },
-    { property: 'nickname' },
-    { property: 'email', type: 'link', action: this.sendMail.bind(this) },
-    { property: 'birthdate', type: 'date', format: 'dd/MM/yyyy', width: '100px' },
-    { property: 'genre', type: 'subtitle', width: '80px', subtitles: [
+  public readonly columns: Array<ThfTableColumn> = [
+    { property: 'name', label: 'Nome' },
+    { property: 'nickname', label: 'Apelido' },
+    { property: 'email', label: 'E-mail', type: 'link', action: this.sendMail.bind(this) },
+    { property: 'birthdate', label: 'Nascimento', type: 'date', format: 'dd/MM/yyyy', width: '100px' },
+    { property: 'genre', label: 'Gênero', type: 'subtitle', width: '80px', subtitles: [
       { value: 'Female', color: 'color-05', content: 'F', label: 'Feminino' },
       { value: 'Male', color: 'color-02', content: 'M', label: 'Masculino' },
       { value: 'Other', color: 'color-08', content: 'O', label: 'Outros' },
     ]},
-    { property: 'city' },
+    { property: 'city', label: 'Cidade' },
     { property: 'status', type: 'label', labels: [
       { value: 'Active', color: 'success', label: 'Ativo' },
       { value: 'Inactive', color: 'danger', label: 'Inativo' }
