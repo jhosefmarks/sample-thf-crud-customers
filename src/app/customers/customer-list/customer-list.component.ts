@@ -33,6 +33,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ];
 
   public customers: Array<any> = [];
+  public loading: boolean = true;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -40,6 +41,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customersSub = this.httpClient.get(this.url)
       .subscribe((response: { hasNext: boolean, items: Array<any>}) => {
         this.customers = response.items;
+        this.loading = false;
       });
   }
 
