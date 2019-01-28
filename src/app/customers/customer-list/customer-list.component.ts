@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
 
-import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
+import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal';
 import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
+import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
 
 @Component({
   selector: 'app-customer-list',
@@ -37,6 +38,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   public readonly filter: ThfPageFilter = {
     action: this.onActionSearch.bind(this),
+    advancedAction: this.openAdvancedFilter.bind(this),
     ngModel: 'searchTerm',
     placeholder: 'Pesquisar por ...'
   };
@@ -44,6 +46,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   public customers: Array<any> = [];
   public hasNext: boolean = false;
   public loading: boolean = true;
+
+  @ViewChild('advancedFilter') advancedFilter: ThfModalComponent;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -53,6 +57,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.customersSub.unsubscribe();
+  }
+
+  openAdvancedFilter() {
+    this.advancedFilter.open();
   }
 
   showMore() {
