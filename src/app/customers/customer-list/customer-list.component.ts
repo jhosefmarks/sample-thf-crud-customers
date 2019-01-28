@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
+import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
 
 @Component({
   selector: 'app-customer-list',
@@ -15,6 +16,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
   private customersSub: Subscription;
   private page: number = 1;
+  private searchTerm: string = '';
 
   public readonly columns: Array<ThfTableColumn> = [
     { property: 'name', label: 'Nome' },
@@ -32,6 +34,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       { value: 'Inactive', color: 'danger', label: 'Inativo' }
     ]}
   ];
+
+  public readonly filter: ThfPageFilter = {
+    action: this.loadData.bind(this),
+    ngModel: 'searchTerm',
+    placeholder: 'Pesquisar por ...'
+  };
 
   public customers: Array<any> = [];
   public hasNext: boolean = false;
@@ -55,7 +63,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   public loadData() {
-    const urlWithPagination = `${this.url}?page=${this.page}`;
+    const urlWithPagination = `${this.url}?page=${this.page}&search=${this.searchTerm}`;
 
     this.loading = true;
 
