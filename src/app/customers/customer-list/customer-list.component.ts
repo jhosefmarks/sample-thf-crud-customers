@@ -36,7 +36,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ];
 
   public readonly filter: ThfPageFilter = {
-    action: this.loadData.bind(this),
+    action: this.onActionSearch.bind(this),
     ngModel: 'searchTerm',
     placeholder: 'Pesquisar por ...'
   };
@@ -55,25 +55,33 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customersSub.unsubscribe();
   }
 
+  showMore() {
+    this.loadData({ page: ++this.page, search: this.searchTerm });
+  }
+
+  private loadData(params: { page?: number, search?: string } = { }) {
+    this.loading = true;
+
+    this.customersSub = this.httpClient.get(this.url, { params: <any>params })
+      .subscribe((response: { hasNext: boolean, items: Array<any>}) => {
+        this.customers = !params.page || params.page === 1
+          ? response.items
+          : [...this.customers, ...response.items];
+        this.hasNext = response.hasNext;
+        this.loading = false;
+      });
+  }
+
+  private onActionSearch() {
+    this.page = 1;
+    this.loadData({ search: this.searchTerm });
+  }
+
   private sendMail(email, customer) {
     const body = `Olá ${customer.name}, gostariamos de agradecer seu contato.`;
     const subject = 'Contato';
 
     window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_self');
-  }
-
-  public loadData() {
-    const urlWithPagination = `${this.url}?page=${this.page}&search=${this.searchTerm}`;
-
-    this.loading = true;
-
-    this.customersSub = this.httpClient.get(urlWithPagination)
-      .subscribe((response: { hasNext: boolean, items: Array<any>}) => {
-        this.customers = [...this.customers, ...response.items];
-        this.hasNext = response.hasNext;
-        this.page++;
-        this.loading = false;
-      });
   }
 
 }
