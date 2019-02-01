@@ -15,7 +15,9 @@
 
 <thf-modal
   #advancedFilter
-  t-title="Busca avançada">
+  t-title="Busca avançada"
+  [t-primary-action]="advancedFilterPrimaryAction"
+  [t-secondary-action]="advancedFilterSecondaryAction">
 
   <form #f="ngForm">
     <thf-input

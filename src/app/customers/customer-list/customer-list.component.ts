@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 import { ThfCheckboxGroupOption, ThfComboOption, ThfRadioGroupOption } from '@totvs/thf-ui/components/thf-field';
-import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal';
+import { ThfModalComponent, ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
 import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
 
@@ -19,6 +19,16 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private customersSub: Subscription;
   private page: number = 1;
   private searchTerm: string = '';
+
+  public readonly advancedFilterPrimaryAction: ThfModalAction = {
+    action: this.onConfirmAdvancedFilter.bind(this),
+    label: 'Pesquisar'
+  };
+
+  public readonly advancedFilterSecondaryAction: ThfModalAction = {
+    action: () => this.advancedFilter.close(),
+    label: 'Cancelar'
+  };
 
   public readonly cityOptions: Array<ThfComboOption> = [
     { label: 'Araquari', value: 'Araquari' },
