@@ -41,6 +41,14 @@
       t-label="Gênero"
       [t-options]="genreOptions">
     </thf-radio-group>
+
+    <thf-checkbox-group
+      class="thf-sm-5"
+      name="status"
+      [(ngModel)]="status"
+      t-label="Status"
+      [t-options]="statusOptions">
+    </thf-checkbox-group>
   </form>
 
 </thf-modal>

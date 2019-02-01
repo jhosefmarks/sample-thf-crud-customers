@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
 
-import { ThfComboOption, ThfRadioGroupOption } from '@totvs/thf-ui/components/thf-field';
+import { ThfCheckboxGroupOption, ThfComboOption, ThfRadioGroupOption } from '@totvs/thf-ui/components/thf-field';
 import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal';
 import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
@@ -61,6 +61,11 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     { label: 'Feminino', value: 'Female' },
     { label: 'Masculino', value: 'Male' },
     { label: 'Outros', value: 'Other' }
+  ];
+
+  public readonly statusOptions: Array<ThfCheckboxGroupOption> = [
+    { label: 'Ativo', value: 'Active' },
+    { label: 'Inativo', value: 'Inactive' }
   ];
 
   public customers: Array<any> = [];
