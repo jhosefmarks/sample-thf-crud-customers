@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
 
+import { ThfComboOption } from '@totvs/thf-ui/components/thf-field';
 import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal';
 import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
@@ -18,6 +19,19 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private customersSub: Subscription;
   private page: number = 1;
   private searchTerm: string = '';
+
+  public readonly cityOptions: Array<ThfComboOption> = [
+    { label: 'Araquari', value: 'Araquari' },
+    { label: 'Belém', value: 'Belém' },
+    { label: 'Campinas', value: 'Campinas' },
+    { label: 'Curitiba', value: 'Curitiba' },
+    { label: 'Joinville', value: 'Joinville' },
+    { label: 'Osasco', value: 'Osasco' },
+    { label: 'Rio de Janeiro', value: 'Rio de Janeiro' },
+    { label: 'São Bento', value: 'São Bento' },
+    { label: 'São Francisco', value: 'São Francisco' },
+    { label: 'São Paulo', value: 'São Paulo' }
+  ];
 
   public readonly columns: Array<ThfTableColumn> = [
     { property: 'name', label: 'Nome' },

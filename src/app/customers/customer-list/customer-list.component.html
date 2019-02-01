@@ -24,6 +24,14 @@
       [(ngModel)]="name"
       t-label="Nome">
     </thf-input>
+
+    <thf-combo
+      class="thf-sm-6"
+      name="city"
+      [(ngModel)]="city"
+      t-label="Cidade"
+      [t-options]="cityOptions">
+    </thf-combo>
   </form>
 
 </thf-modal>
