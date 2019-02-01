@@ -19,6 +19,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private customersSub: Subscription;
   private page: number = 1;
   private searchTerm: string = '';
+  private searchFilters: any;
 
   public readonly advancedFilterPrimaryAction: ThfModalAction = {
     action: this.onConfirmAdvancedFilter.bind(this),
@@ -103,7 +104,17 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   showMore() {
-    this.loadData({ page: ++this.page, search: this.searchTerm });
+    let params: any = {
+      page: ++this.page
+    };
+
+    if (this.searchTerm) {
+      params.search = this.searchTerm
+    } else {
+      params = { ...params, ...this.searchFilters }
+    }
+
+    this.loadData(params);
   }
 
   private loadData(params: { page?: number, search?: string } = { }) {
@@ -120,12 +131,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   private onActionSearch() {
+    this.searchFilters = {};
     this.page = 1;
+
     this.loadData({ search: this.searchTerm });
   }
 
   private onConfirmAdvancedFilter() {
-    const filters: any = {
+    this.searchFilters = {
       name: this.name || '',
       city: this.city || '',
       genre: this.genre || '',
@@ -135,7 +148,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.searchTerm = undefined;
     this.page = 1;
 
-    this.loadData(filters);
+    this.loadData(this.searchFilters);
 
     this.advancedFilter.close();
   }
