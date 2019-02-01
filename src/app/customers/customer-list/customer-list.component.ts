@@ -115,9 +115,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     };
 
     if (this.searchTerm) {
-      params.search = this.searchTerm
+      params.search = this.searchTerm;
     } else {
-      params = { ...params, ...this.searchFilters }
+      params = { ...params, ...this.searchFilters };
     }
 
     this.loadData(params);
@@ -141,6 +141,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.page = 1;
 
     this.loadData({ search: this.searchTerm });
+
+    this.disclaimerGroup.disclaimers = [{
+      label: `Pesquisa rápida: ${this.searchTerm}`,
+      property: 'search',
+      value: this.searchTerm
+    }];
   }
 
   private onConfirmAdvancedFilter() {
