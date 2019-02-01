@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
 
-import { ThfComboOption } from '@totvs/thf-ui/components/thf-field';
+import { ThfComboOption, ThfRadioGroupOption } from '@totvs/thf-ui/components/thf-field';
 import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal';
 import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
@@ -56,6 +56,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     ngModel: 'searchTerm',
     placeholder: 'Pesquisar por ...'
   };
+
+  public readonly genreOptions: Array<ThfRadioGroupOption> = [
+    { label: 'Feminino', value: 'Female' },
+    { label: 'Masculino', value: 'Male' },
+    { label: 'Outros', value: 'Other' }
+  ];
 
   public customers: Array<any> = [];
   public hasNext: boolean = false;

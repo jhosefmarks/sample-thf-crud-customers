@@ -32,6 +32,15 @@
       t-label="Cidade"
       [t-options]="cityOptions">
     </thf-combo>
+
+    <thf-radio-group
+      class="thf-sm-7"
+      name="genre"
+      [(ngModel)]="genre"
+      t-columns="3"
+      t-label="Gênero"
+      [t-options]="genreOptions">
+    </thf-radio-group>
   </form>
 
 </thf-modal>
