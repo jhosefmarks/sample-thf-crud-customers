@@ -68,9 +68,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     { label: 'Inativo', value: 'Inactive' }
   ];
 
+  public city: string;
   public customers: Array<any> = [];
+  public genre: string;
   public hasNext: boolean = false;
   public loading: boolean = true;
+  public name: string;
+  public status: Array<string> = [];
 
   @ViewChild('advancedFilter') advancedFilter: ThfModalComponent;
 
@@ -108,6 +112,22 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private onActionSearch() {
     this.page = 1;
     this.loadData({ search: this.searchTerm });
+  }
+
+  private onConfirmAdvancedFilter() {
+    const filters: any = {
+      name: this.name || '',
+      city: this.city || '',
+      genre: this.genre || '',
+      status: this.status ? this.status.join() : ''
+    }
+
+    this.searchTerm = undefined;
+    this.page = 1;
+
+    this.loadData(filters);
+
+    this.advancedFilter.close();
   }
 
   private sendMail(email, customer) {
