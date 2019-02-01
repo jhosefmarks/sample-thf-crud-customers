@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 import { ThfCheckboxGroupOption, ThfComboOption, ThfRadioGroupOption } from '@totvs/thf-ui/components/thf-field';
+import { ThfDisclaimerGroup } from '@totvs/thf-ui/components/thf-disclaimer-group';
 import { ThfModalComponent, ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
 import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
@@ -60,6 +61,11 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       { value: 'Inactive', color: 'danger', label: 'Inativo' }
     ]}
   ];
+
+  public readonly disclaimerGroup: ThfDisclaimerGroup = {
+    title: 'Filtros aplicados em nossa pesquisa',
+    disclaimers: [ ]
+  };
 
   public readonly filter: ThfPageFilter = {
     action: this.onActionSearch.bind(this),
