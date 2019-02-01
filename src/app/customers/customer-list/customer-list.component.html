@@ -17,4 +17,13 @@
   #advancedFilter
   t-title="Busca avançada">
 
+  <form #f="ngForm">
+    <thf-input
+      class="thf-sm-6"
+      name="name"
+      [(ngModel)]="name"
+      t-label="Nome">
+    </thf-input>
+  </form>
+
 </thf-modal>
