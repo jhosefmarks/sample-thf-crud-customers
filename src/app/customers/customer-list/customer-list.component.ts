@@ -163,17 +163,15 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   private onConfirmAdvancedFilter() {
-    this.searchFilters = {
-      name: this.name || '',
-      city: this.city || '',
-      genre: this.genre || '',
-      status: this.status ? this.status.join() : ''
-    }
+    const addDisclaimers = (property: string, value: string, label: string) =>
+      value && this.disclaimerGroup.disclaimers.push({property, value, label: `${label}: ${value}`});
 
-    this.searchTerm = undefined;
-    this.page = 1;
+    this.disclaimerGroup.disclaimers = [];
 
-    this.loadData(this.searchFilters);
+    addDisclaimers('city', this.city, 'Cidade');
+    addDisclaimers('genre', this.genre, 'Gênero');
+    addDisclaimers('name', this.name, 'Nome');
+    addDisclaimers('status', this.status ? this.status.join(',') : '', 'Status');
 
     this.advancedFilter.close();
   }
