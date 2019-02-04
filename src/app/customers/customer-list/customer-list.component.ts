@@ -63,8 +63,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ];
 
   public readonly disclaimerGroup: ThfDisclaimerGroup = {
-    title: 'Filtros aplicados em nossa pesquisa',
-    disclaimers: [ ]
+    change: this.onChangeDisclaimerGroup.bind(this),
+    disclaimers: [ ],
+    title: 'Filtros aplicados em nossa pesquisa'
   };
 
   public readonly filter: ThfPageFilter = {
@@ -147,6 +148,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       property: 'search',
       value: this.searchTerm
     }];
+  }
+
+  private onChangeDisclaimerGroup(disclaimers) {
+    this.searchTerm = undefined;
+    this.page = 1;
+
+    this.loadData();
   }
 
   private onConfirmAdvancedFilter() {
