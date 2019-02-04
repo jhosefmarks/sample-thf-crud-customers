@@ -1,5 +1,7 @@
 <thf-page-list
-  t-title="Listagem de clientes">
+  t-title="Listagem de clientes"
+  [t-disclaimer-group]="disclaimerGroup"
+  [t-filter]="filter">
 
   <thf-table
     t-sort="true"
@@ -7,7 +9,49 @@
     [t-items]="customers"
     [t-loading]="loading"
     [t-show-more-disabled]="!hasNext"
-    (t-show-more)="loadData()">
+    (t-show-more)="showMore()">
   </thf-table>
 
 </thf-page-list>
+
+<thf-modal
+  #advancedFilter
+  t-title="Busca avançada"
+  [t-primary-action]="advancedFilterPrimaryAction"
+  [t-secondary-action]="advancedFilterSecondaryAction">
+
+  <form #f="ngForm">
+    <thf-input
+      class="thf-sm-6"
+      name="name"
+      [(ngModel)]="name"
+      t-label="Nome">
+    </thf-input>
+
+    <thf-combo
+      class="thf-sm-6"
+      name="city"
+      [(ngModel)]="city"
+      t-label="Cidade"
+      [t-options]="cityOptions">
+    </thf-combo>
+
+    <thf-radio-group
+      class="thf-sm-7"
+      name="genre"
+      [(ngModel)]="genre"
+      t-columns="3"
+      t-label="Gênero"
+      [t-options]="genreOptions">
+    </thf-radio-group>
+
+    <thf-checkbox-group
+      class="thf-sm-5"
+      name="status"
+      [(ngModel)]="status"
+      t-label="Status"
+      [t-options]="statusOptions">
+    </thf-checkbox-group>
+  </form>
+
+</thf-modal>

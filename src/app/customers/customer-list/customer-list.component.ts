@@ -1,8 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
 
+import { ThfCheckboxGroupOption, ThfComboOption, ThfRadioGroupOption } from '@totvs/thf-ui/components/thf-field';
+import { ThfDisclaimer } from '@totvs/thf-ui/components/thf-disclaimer';
+import { ThfDisclaimerGroup } from '@totvs/thf-ui/components/thf-disclaimer-group';
+import { ThfModalComponent, ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
+import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
 
 @Component({
@@ -15,6 +20,31 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
   private customersSub: Subscription;
   private page: number = 1;
+  private searchTerm: string = '';
+  private searchFilters: any;
+
+  public readonly advancedFilterPrimaryAction: ThfModalAction = {
+    action: this.onConfirmAdvancedFilter.bind(this),
+    label: 'Pesquisar'
+  };
+
+  public readonly advancedFilterSecondaryAction: ThfModalAction = {
+    action: () => this.advancedFilter.close(),
+    label: 'Cancelar'
+  };
+
+  public readonly cityOptions: Array<ThfComboOption> = [
+    { label: 'Araquari', value: 'Araquari' },
+    { label: 'Belém', value: 'Belém' },
+    { label: 'Campinas', value: 'Campinas' },
+    { label: 'Curitiba', value: 'Curitiba' },
+    { label: 'Joinville', value: 'Joinville' },
+    { label: 'Osasco', value: 'Osasco' },
+    { label: 'Rio de Janeiro', value: 'Rio de Janeiro' },
+    { label: 'São Bento', value: 'São Bento' },
+    { label: 'São Francisco', value: 'São Francisco' },
+    { label: 'São Paulo', value: 'São Paulo' }
+  ];
 
   public readonly columns: Array<ThfTableColumn> = [
     { property: 'name', label: 'Nome' },
@@ -33,9 +63,39 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     ]}
   ];
 
+  public readonly disclaimerGroup: ThfDisclaimerGroup = {
+    change: this.onChangeDisclaimerGroup.bind(this),
+    disclaimers: [ ],
+    title: 'Filtros aplicados em nossa pesquisa'
+  };
+
+  public readonly filter: ThfPageFilter = {
+    action: this.onActionSearch.bind(this),
+    advancedAction: this.openAdvancedFilter.bind(this),
+    ngModel: 'searchTerm',
+    placeholder: 'Pesquisar por ...'
+  };
+
+  public readonly genreOptions: Array<ThfRadioGroupOption> = [
+    { label: 'Feminino', value: 'Female' },
+    { label: 'Masculino', value: 'Male' },
+    { label: 'Outros', value: 'Other' }
+  ];
+
+  public readonly statusOptions: Array<ThfCheckboxGroupOption> = [
+    { label: 'Ativo', value: 'Active' },
+    { label: 'Inativo', value: 'Inactive' }
+  ];
+
+  public city: string;
   public customers: Array<any> = [];
+  public genre: string;
   public hasNext: boolean = false;
   public loading: boolean = true;
+  public name: string;
+  public status: Array<string> = [];
+
+  @ViewChild('advancedFilter') advancedFilter: ThfModalComponent;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -47,25 +107,80 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customersSub.unsubscribe();
   }
 
+  openAdvancedFilter() {
+    this.advancedFilter.open();
+  }
+
+  showMore() {
+    let params: any = {
+      page: ++this.page
+    };
+
+    if (this.searchTerm) {
+      params.search = this.searchTerm;
+    } else {
+      params = { ...params, ...this.searchFilters };
+    }
+
+    this.loadData(params);
+  }
+
+  private loadData(params: { page?: number, search?: string } = { }) {
+    this.loading = true;
+
+    this.customersSub = this.httpClient.get(this.url, { params: <any>params })
+      .subscribe((response: { hasNext: boolean, items: Array<any>}) => {
+        this.customers = !params.page || params.page === 1
+          ? response.items
+          : [...this.customers, ...response.items];
+        this.hasNext = response.hasNext;
+        this.loading = false;
+      });
+  }
+
+  private onActionSearch() {
+    this.disclaimerGroup.disclaimers = [{
+      label: `Pesquisa rápida: ${this.searchTerm}`,
+      property: 'search',
+      value: this.searchTerm
+    }];
+  }
+
+  private onChangeDisclaimerGroup(disclaimers: Array<ThfDisclaimer>) {
+    this.searchFilters = {};
+
+    this.page = 1;
+
+    disclaimers.forEach(disclaimer => {
+      this.searchFilters[disclaimer.property] = disclaimer.value;
+    });
+
+    if (!this.searchFilters.search) {
+      this.searchTerm = undefined;
+    }
+
+    this.loadData(this.searchFilters);
+  }
+
+  private onConfirmAdvancedFilter() {
+    const addDisclaimers = (property: string, value: string, label: string) =>
+      value && this.disclaimerGroup.disclaimers.push({property, value, label: `${label}: ${value}`});
+
+    this.disclaimerGroup.disclaimers = [];
+
+    addDisclaimers('city', this.city, 'Cidade');
+    addDisclaimers('genre', this.genre, 'Gênero');
+    addDisclaimers('name', this.name, 'Nome');
+    addDisclaimers('status', this.status ? this.status.join(',') : '', 'Status');
+
+    this.advancedFilter.close();
+  }
+
   private sendMail(email, customer) {
     const body = `Olá ${customer.name}, gostariamos de agradecer seu contato.`;
     const subject = 'Contato';
 
     window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_self');
-  }
-
-  public loadData() {
-    const urlWithPagination = `${this.url}?page=${this.page}`;
-
-    this.loading = true;
-
-    this.customersSub = this.httpClient.get(urlWithPagination)
-      .subscribe((response: { hasNext: boolean, items: Array<any>}) => {
-        this.customers = [...this.customers, ...response.items];
-        this.hasNext = response.hasNext;
-        this.page++;
-        this.loading = false;
-      });
   }
 
 }
