@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 import { ThfCheckboxGroupOption, ThfComboOption, ThfRadioGroupOption } from '@totvs/thf-ui/components/thf-field';
+import { ThfDisclaimer } from '@totvs/thf-ui/components/thf-disclaimer';
 import { ThfDisclaimerGroup } from '@totvs/thf-ui/components/thf-disclaimer-group';
 import { ThfModalComponent, ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
 import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
@@ -138,11 +139,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   private onActionSearch() {
-    this.searchFilters = {};
-    this.page = 1;
-
-    this.loadData({ search: this.searchTerm });
-
     this.disclaimerGroup.disclaimers = [{
       label: `Pesquisa rápida: ${this.searchTerm}`,
       property: 'search',
@@ -150,11 +146,20 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     }];
   }
 
-  private onChangeDisclaimerGroup(disclaimers) {
-    this.searchTerm = undefined;
+  private onChangeDisclaimerGroup(disclaimers: Array<ThfDisclaimer>) {
+    this.searchFilters = {};
+
     this.page = 1;
 
-    this.loadData();
+    disclaimers.forEach(disclaimer => {
+      this.searchFilters[disclaimer.property] = disclaimer.value;
+    });
+
+    if (!this.searchFilters.search) {
+      this.searchTerm = undefined;
+    }
+
+    this.loadData(this.searchFilters);
   }
 
   private onConfirmAdvancedFilter() {
