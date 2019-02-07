@@ -3,21 +3,21 @@
   [t-disable-submit]="formCustomer.invalid">
 
   <form #formCustomer="ngForm">
-    <thf-input class="thf-md-6"
+    <thf-input class="thf-md-5"
       name="name"
       [(ngModel)]="customer.name"
       t-required
       t-label="Nome completo">
     </thf-input>
 
-    <thf-email class="thf-md-6"
+    <thf-email class="thf-md-5"
       name="email"
       [(ngModel)]="customer.email"
       t-required
       t-label="E-mail">
     </thf-email>
 
-    <thf-switch class="thf-md-6"
+    <thf-switch class="thf-md-2"
       name="status"
       [(ngModel)]="customer.status"
       t-required
@@ -25,6 +25,12 @@
       t-label-on="Ativo"
       t-label="Status">
     </thf-switch>
+
+    <thf-input class="thf-md-3"
+      name="nickname"
+      [(ngModel)]="customer.nickname"
+      t-label="Apelido">
+    </thf-input>
   </form>
 
 </thf-page-edit>
