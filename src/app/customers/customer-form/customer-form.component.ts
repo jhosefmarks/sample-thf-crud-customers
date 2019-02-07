@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { ThfNotificationService } from '@totvs/thf-ui';
+import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification';
+import { ThfSelectOption } from '@totvs/thf-ui/components/thf-field';
 
 @Component({
   selector: 'app-customer-form',
@@ -16,7 +17,17 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
   private customerSub: Subscription;
 
-  public customer: any = { };
+  public readonly genreOptions: Array<ThfSelectOption> = [
+    { label: 'Feminino', value: 'Female' },
+    { label: 'Masculino', value: 'Male' },
+    { label: 'Outros', value: 'Other' }
+  ];
+
+  public customer: any = {
+    name: 'Fulano da Silva',
+    email: 'fulano@customer.com',
+    status: true
+  };
 
   constructor(
     private thfNotification: ThfNotificationService,
