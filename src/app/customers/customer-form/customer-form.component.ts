@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomerFormComponent implements OnInit {
 
+  public customer: any = { };
+
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  save() {
+
   }
 
 }
