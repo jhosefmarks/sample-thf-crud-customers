@@ -30,7 +30,11 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
   ngOnInit() { }
 
   save() {
-    this.customerSub = this.httpClient.post(this.url, this.customer).subscribe(() => {
+    const customer = {...this.customer};
+
+    customer.status = customer.status ? 'Active' : 'Inactive';
+
+    this.customerSub = this.httpClient.post(this.url, customer).subscribe(() => {
       this.thfNotification.success('Cliente cadastrado com sucesso');
 
       this.router.navigateByUrl('/customers');
