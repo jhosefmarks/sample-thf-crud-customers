@@ -17,12 +17,14 @@
       t-label="E-mail">
     </thf-email>
 
-    <thf-input class="thf-md-6"
+    <thf-switch class="thf-md-6"
       name="status"
       [(ngModel)]="customer.status"
       t-required
+      t-label-off="Inativo"
+      t-label-on="Ativo"
       t-label="Status">
-    </thf-input>
+    </thf-switch>
   </form>
 
 </thf-page-edit>
