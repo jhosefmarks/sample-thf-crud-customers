@@ -37,6 +37,13 @@
       [(ngModel)]="customer.birthdate"
       t-label="Nascimento">
     </thf-datepicker>
+
+    <thf-select class="thf-md-3"
+      name="genre"
+      [(ngModel)]="customer.genre"
+      t-label="Gênero"
+      [t-options]="genreOptions">
+    </thf-select>
   </form>
 
 </thf-page-edit>
