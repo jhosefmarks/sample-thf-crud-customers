@@ -4,7 +4,7 @@
 
   <form #formCustomer="ngForm">
 
-    <thf-divider t-label="Dados pessoais"></thf-divider>
+    <thf-divider class="thf-sm-12" t-label="Dados pessoais"></thf-divider>
 
     <thf-input class="thf-md-5"
       name="name"
@@ -52,6 +52,20 @@
       name="nationality"
       [(ngModel)]="customer.nationality"
       t-label="Nacionalidade">
+    </thf-input>
+
+    <thf-divider class="thf-sm-12" t-label="Filiação"></thf-divider>
+
+    <thf-input class="thf-md-5"
+      name="mother"
+      [(ngModel)]="customer.mother"
+      t-label="Nome da mãe">
+    </thf-input>
+
+    <thf-input class="thf-md-5"
+      name="father"
+      [(ngModel)]="customer.father"
+      t-label="Nome do pai">
     </thf-input>
   </form>
 
