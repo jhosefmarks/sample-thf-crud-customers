@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
@@ -7,7 +8,7 @@ import { ThfCheckboxGroupOption, ThfComboOption, ThfRadioGroupOption } from '@to
 import { ThfDisclaimer } from '@totvs/thf-ui/components/thf-disclaimer';
 import { ThfDisclaimerGroup } from '@totvs/thf-ui/components/thf-disclaimer-group';
 import { ThfModalComponent, ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
-import { ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
+import { ThfPageFilter, ThfPageAction } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
 
 @Component({
@@ -22,6 +23,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   private page: number = 1;
   private searchTerm: string = '';
   private searchFilters: any;
+
+  public readonly actions: Array<ThfPageAction> = [
+    { action: this.onNewCustomer.bind(this), label: 'Cadastrar', icon: 'thf-icon-user-add' }
+  ];
 
   public readonly advancedFilterPrimaryAction: ThfModalAction = {
     action: this.onConfirmAdvancedFilter.bind(this),
@@ -97,7 +102,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   @ViewChild('advancedFilter') advancedFilter: ThfModalComponent;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.loadData();
@@ -174,6 +179,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     addDisclaimers('status', this.status ? this.status.join(',') : '', 'Status');
 
     this.advancedFilter.close();
+  }
+
+  private onNewCustomer() {
+    this.router.navigateByUrl('/customers/new');
   }
 
   private sendMail(email, customer) {

@@ -4,10 +4,14 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from './../shared/shared.module';
 
 import { CustomersRoutingModule } from './customers-routing.module';
+import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 
 @NgModule({
-  declarations: [CustomerListComponent],
+  declarations: [
+    CustomerFormComponent,
+    CustomerListComponent
+  ],
   imports: [
     CommonModule,
 

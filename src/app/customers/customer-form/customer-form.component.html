@@ -1,0 +1,92 @@
+<thf-page-edit
+  t-title="Novo cliente"
+  [t-disable-submit]="formCustomer.invalid">
+
+  <form #formCustomer="ngForm">
+
+    <thf-divider class="thf-sm-12" t-label="Dados pessoais"></thf-divider>
+
+    <thf-input class="thf-md-5"
+      name="name"
+      [(ngModel)]="customer.name"
+      t-required
+      t-label="Nome completo">
+    </thf-input>
+
+    <thf-email class="thf-md-5"
+      name="email"
+      [(ngModel)]="customer.email"
+      t-required
+      t-label="E-mail">
+    </thf-email>
+
+    <thf-switch class="thf-md-2"
+      name="status"
+      [(ngModel)]="customer.status"
+      t-required
+      t-label-off="Inativo"
+      t-label-on="Ativo"
+      t-label="Status">
+    </thf-switch>
+
+    <thf-input class="thf-md-3"
+      name="nickname"
+      [(ngModel)]="customer.nickname"
+      t-label="Apelido">
+    </thf-input>
+
+    <thf-datepicker class="thf-md-3"
+      name="birthdate"
+      [(ngModel)]="customer.birthdate"
+      t-label="Nascimento">
+    </thf-datepicker>
+
+    <thf-select class="thf-md-3"
+      name="genre"
+      [(ngModel)]="customer.genre"
+      t-label="Gênero"
+      [t-options]="genreOptions">
+    </thf-select>
+
+    <thf-input class="thf-md-3"
+      name="nationality"
+      [(ngModel)]="customer.nationality"
+      t-label="Nacionalidade">
+    </thf-input>
+
+    <thf-divider class="thf-sm-12" t-label="Filiação"></thf-divider>
+
+    <thf-input class="thf-md-5"
+      name="mother"
+      [(ngModel)]="customer.mother"
+      t-label="Nome da mãe">
+    </thf-input>
+
+    <thf-input class="thf-md-5"
+      name="father"
+      [(ngModel)]="customer.father"
+      t-label="Nome do pai">
+    </thf-input>
+
+    <thf-divider class="thf-sm-12" t-label="Endereço"></thf-divider>
+
+    <thf-input class="thf-md-6"
+      name="street"
+      [(ngModel)]="customer.street"
+      t-label="Rua">
+    </thf-input>
+
+    <thf-input class="thf-md-3"
+      name="city"
+      [(ngModel)]="customer.city"
+      t-label="Cidade/Estado">
+    </thf-input>
+
+    <thf-input class="thf-md-3"
+      name="country"
+      [(ngModel)]="customer.country"
+      t-label="País">
+    </thf-input>
+  </form>
+
+</thf-page-edit>
