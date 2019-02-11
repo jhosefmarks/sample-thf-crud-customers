@@ -23,11 +23,7 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
     { label: 'Outros', value: 'Other' }
   ];
 
-  public customer: any = {
-    name: 'Fulano da Silva',
-    email: 'fulano@customer.com',
-    status: true
-  };
+  public customer: any = { };
 
   constructor(
     private thfNotification: ThfNotificationService,
@@ -35,10 +31,16 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
     private httpClient: HttpClient) { }
 
   ngOnDestroy() {
-    this.customerSub.unsubscribe();
+    if (this.customerSub) {
+      this.customerSub.unsubscribe();
+    }
   }
 
   ngOnInit() { }
+
+  cancel() {
+    this.router.navigateByUrl('/customers');
+  }
 
   save() {
     const customer = {...this.customer};
