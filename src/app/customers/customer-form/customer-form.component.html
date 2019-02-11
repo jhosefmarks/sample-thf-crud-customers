@@ -44,6 +44,12 @@
       t-label="Gênero"
       [t-options]="genreOptions">
     </thf-select>
+
+    <thf-input class="thf-md-3"
+      name="nationality"
+      [(ngModel)]="customer.nationality"
+      t-label="Nacionalidade">
+    </thf-input>
   </form>
 
 </thf-page-edit>
