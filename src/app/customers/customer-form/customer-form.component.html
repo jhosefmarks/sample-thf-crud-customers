@@ -67,6 +67,26 @@
       [(ngModel)]="customer.father"
       t-label="Nome do pai">
     </thf-input>
+
+    <thf-divider class="thf-sm-12" t-label="Endereço"></thf-divider>
+
+    <thf-input class="thf-md-6"
+      name="street"
+      [(ngModel)]="customer.street"
+      t-label="Rua">
+    </thf-input>
+
+    <thf-input class="thf-md-3"
+      name="city"
+      [(ngModel)]="customer.city"
+      t-label="Cidade/Estado">
+    </thf-input>
+
+    <thf-input class="thf-md-3"
+      name="country"
+      [(ngModel)]="customer.country"
+      t-label="País">
+    </thf-input>
   </form>
 
 </thf-page-edit>
