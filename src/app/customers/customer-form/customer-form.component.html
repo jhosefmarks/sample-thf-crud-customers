@@ -3,6 +3,9 @@
   [t-disable-submit]="formCustomer.invalid">
 
   <form #formCustomer="ngForm">
+
+    <thf-divider t-label="Dados pessoais"></thf-divider>
+
     <thf-input class="thf-md-5"
       name="name"
       [(ngModel)]="customer.name"
