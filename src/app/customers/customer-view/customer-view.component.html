@@ -1,0 +1,79 @@
+<thf-page-detail
+  t-title="Detalhes do cliente">
+
+  <thf-divider t-label="Dados pessoais"></thf-divider>
+
+  <div class="thf-row">
+    <thf-info class="thf-md-5"
+      t-label="Nome"
+      [t-value]="customer.name">
+    </thf-info>
+
+    <thf-info class="thf-md-5"
+      t-label="E-mail"
+      [t-value]="customer.email">
+    </thf-info>
+
+    <thf-tag class="thf-md-2"
+      t-label="Status"
+      [t-type]="customer.status === 'Ativo' ? 'success' : 'danger'"
+      [t-value]="customer.status">
+    </thf-tag>
+  </div>
+
+  <div class="thf-row">
+    <thf-info class="thf-md-3"
+      t-label="Apelido"
+      [t-value]="customer.nickname">
+    </thf-info>
+
+    <thf-info class="thf-md-3"
+      t-label="Nascimento"
+      [t-value]="customer.birthdate | date:'dd/MM/yyyy'">
+    </thf-info>
+
+    <thf-info class="thf-md-3"
+      t-label="Gênero"
+      [t-value]="customer.genre">
+    </thf-info>
+
+    <thf-info class="thf-md-3"
+      t-label="Nacionalidade"
+      [t-value]="customer.nationality">
+    </thf-info>
+  </div>
+
+  <thf-divider t-label="Filiação"></thf-divider>
+
+  <div class="thf-row">
+    <thf-info class="thf-md-5"
+      t-label="Nome da mãe"
+      [t-value]="customer.mother">
+    </thf-info>
+
+    <thf-info class="thf-md-5"
+      t-label="Nome do pai"
+      [t-value]="customer.father">
+    </thf-info>
+  </div>
+
+  <thf-divider t-label="Endereço"></thf-divider>
+
+  <div class="thf-row">
+    <thf-info class="thf-md-6"
+      t-label="Rua"
+      [t-value]="customer.street">
+    </thf-info>
+
+    <thf-info class="thf-md-3"
+      t-label="Cidade/Estado"
+      [t-value]="customer.city">
+    </thf-info>
+
+    <thf-info class="thf-md-3"
+      t-label="País"
+      [t-value]="customer.country">
+    </thf-info>
+  </div>
+
+</thf-page-detail>
