@@ -13,7 +13,8 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
 
-  private customersSub: Subscription;
+  private customer = {};
+  private customerSub: Subscription;
   private paramsSub: Subscription;
 
   constructor(private httpClient: HttpClient, private route: ActivatedRoute) { }
@@ -24,11 +25,11 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
-    this.customersSub.unsubscribe();
+    this.customerSub.unsubscribe();
   }
 
   private loadData(id) {
-    this.customersSub = this.httpClient.get(`${this.url}/${id}`).subscribe(console.log);
+    this.customerSub = this.httpClient.get(`${this.url}/${id}`).subscribe(response => this.customer = response);
   }
 
 }
