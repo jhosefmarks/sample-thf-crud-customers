@@ -14,9 +14,10 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
 
-  private customer: any = {};
   private customerSub: Subscription;
   private paramsSub: Subscription;
+
+  customer: any = {};
 
   constructor(private httpClient: HttpClient, private route: ActivatedRoute, private router: Router) { }
 
