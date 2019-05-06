@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
   private customerSub: Subscription;
   private paramsSub: Subscription;
 
-  constructor(private httpClient: HttpClient, private route: ActivatedRoute) { }
+  constructor(private httpClient: HttpClient, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.paramsSub = this.route.params.subscribe(params => this.loadData(params['id']));
@@ -27,6 +27,10 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
     this.customerSub.unsubscribe();
+  }
+
+  back() {
+    this.router.navigateByUrl('customers');
   }
 
   private loadData(id) {
