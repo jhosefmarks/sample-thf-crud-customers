@@ -1,12 +1,26 @@
 <thf-page-detail
   t-title="Detalhes do cliente">
 
-  <thf-info t-label="Nome" [t-value]="customer.name"></thf-info>
+  <div class="thf-row">
+    <thf-info class="thf-sm-12 thf-md-6"
+      t-label="Nome"
+      [t-value]="customer.name">
+    </thf-info>
 
-  <thf-info t-label="Nascimento" [t-value]="customer.birthdate"></thf-info>
+    <thf-info class="thf-sm-12 thf-md-2"
+      t-label="Nascimento"
+      [t-value]="customer.birthdate">
+    </thf-info>
 
-  <thf-info t-label="Gênero" [t-value]="customer.genre"></thf-info>
+    <thf-info class="thf-sm-12 thf-md-2"
+      t-label="Gênero"
+      [t-value]="customer.genre">
+    </thf-info>
 
-  <thf-info t-label="Status" [t-value]="customer.status"></thf-info>
+    <thf-tag class="thf-sm-12 thf-md-2"
+      t-label="Status"
+      [t-value]="customer.status">
+    </thf-tag>
+  </div>
 
 </thf-page-detail>
