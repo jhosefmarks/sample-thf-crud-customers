@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
+import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,7 +14,7 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
 
-  private customer = {};
+  private customer: any = {};
   private customerSub: Subscription;
   private paramsSub: Subscription;
 
@@ -29,7 +30,20 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
   }
 
   private loadData(id) {
-    this.customerSub = this.httpClient.get(`${this.url}/${id}`).subscribe(response => this.customer = response);
+    this.customerSub = this.httpClient.get(`${this.url}/${id}`)
+      .pipe(
+        map((customer: any) => {
+          const status = { Active: 'Ativo', Inactive: 'Inativo' };
+
+          const genre = { Female: 'Feminino', Male: 'Masculino', Other: 'Outros' };
+
+          customer.status = status[customer.status];
+          customer.genre = genre[customer.genre];
+
+          return customer;
+        })
+      )
+      .subscribe(response => this.customer = response);
   }
 
 }
