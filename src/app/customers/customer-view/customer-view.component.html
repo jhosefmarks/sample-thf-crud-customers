@@ -28,7 +28,7 @@
 
     <thf-info class="thf-md-3"
       t-label="Nascimento"
-      [t-value]="customer.birthdate">
+      [t-value]="customer.birthdate | date:'dd/MM/yyyy'">
     </thf-info>
 
     <thf-info class="thf-md-3"
