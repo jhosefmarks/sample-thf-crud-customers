@@ -16,6 +16,7 @@
 
     <thf-tag class="thf-md-2"
       t-label="Status"
+      [t-type]="customer.status === 'Ativo' ? 'success' : 'danger'"
       [t-value]="customer.status">
     </thf-tag>
   </div>
