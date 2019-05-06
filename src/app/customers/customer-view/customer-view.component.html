@@ -1,6 +1,8 @@
 <thf-page-detail
   t-title="Detalhes do cliente">
 
+  <thf-divider t-label="Dados pessoais"></thf-divider>
+
   <div class="thf-row">
     <thf-info class="thf-md-5"
       t-label="Nome"
@@ -40,6 +42,8 @@
     </thf-info>
   </div>
 
+  <thf-divider t-label="Filiação"></thf-divider>
+
   <div class="thf-row">
     <thf-info class="thf-md-5"
       t-label="Nome da mãe"
@@ -51,6 +55,8 @@
       [t-value]="customer.father">
     </thf-info>
   </div>
+
+  <thf-divider t-label="Endereço"></thf-divider>
 
   <div class="thf-row">
     <thf-info class="thf-md-6"
