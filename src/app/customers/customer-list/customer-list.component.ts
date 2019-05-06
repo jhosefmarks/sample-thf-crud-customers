@@ -9,7 +9,7 @@ import { ThfDisclaimer } from '@totvs/thf-ui/components/thf-disclaimer';
 import { ThfDisclaimerGroup } from '@totvs/thf-ui/components/thf-disclaimer-group';
 import { ThfModalComponent, ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
 import { ThfPageFilter, ThfPageAction } from '@totvs/thf-ui/components/thf-page';
-import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
+import { ThfTableAction, ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
 
 @Component({
   selector: 'app-customer-list',
@@ -90,6 +90,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   public readonly statusOptions: Array<ThfCheckboxGroupOption> = [
     { label: 'Ativo', value: 'Active' },
     { label: 'Inativo', value: 'Inactive' }
+  ];
+
+  public readonly tableActions: Array<ThfTableAction> = [
+    { action: this.onViewCustomer.bind(this), label: 'Visualizar' }
   ];
 
   public city: string;
@@ -183,6 +187,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   private onNewCustomer() {
     this.router.navigateByUrl('/customers/new');
+  }
+
+  private onViewCustomer(customer) {
+    this.router.navigateByUrl(`/customers/view/${customer.id}`);
   }
 
   private sendMail(email, customer) {
