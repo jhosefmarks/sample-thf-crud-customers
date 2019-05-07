@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
@@ -15,7 +15,9 @@ import { ThfSelectOption } from '@totvs/thf-ui/components/thf-field';
 export class CustomerFormComponent implements OnDestroy, OnInit {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
+
   private customerSub: Subscription;
+  private paramsSub: Subscription;
 
   public readonly genreOptions: Array<ThfSelectOption> = [
     { label: 'Feminino', value: 'Female' },
@@ -28,15 +30,24 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
   constructor(
     private thfNotification: ThfNotificationService,
     private router: Router,
+    private route: ActivatedRoute,
     private httpClient: HttpClient) { }
 
   ngOnDestroy() {
+    this.paramsSub.unsubscribe();
+
     if (this.customerSub) {
       this.customerSub.unsubscribe();
     }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.paramsSub = this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.loadData(params['id']);
+      }
+    });
+  }
 
   cancel() {
     this.router.navigateByUrl('/customers');
@@ -52,6 +63,11 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
 
       this.router.navigateByUrl('/customers');
     });
+  }
+
+  private loadData(id) {
+    this.customerSub = this.httpClient.get(`${this.url}/${id}`)
+      .subscribe(response => this.customer = response);
   }
 
 }
