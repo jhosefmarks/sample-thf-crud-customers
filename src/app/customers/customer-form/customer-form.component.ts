@@ -7,6 +7,9 @@ import { Subscription } from 'rxjs';
 import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification';
 import { ThfSelectOption } from '@totvs/thf-ui/components/thf-field';
 
+const actionInsert = 'insert';
+const actionUpdate = 'update';
+
 @Component({
   selector: 'app-customer-form',
   templateUrl: './customer-form.component.html',
@@ -16,6 +19,7 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
 
+  private action: string = actionInsert;
   private customerSub: Subscription;
   private paramsSub: Subscription;
 
@@ -45,6 +49,7 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
     this.paramsSub = this.route.params.subscribe(params => {
       if (params['id']) {
         this.loadData(params['id']);
+        this.action = actionUpdate;
       }
     });
   }
@@ -63,6 +68,14 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
 
       this.router.navigateByUrl('/customers');
     });
+  }
+
+  get isUpdateOperation() {
+    return this.action === actionUpdate;
+  }
+
+  get title() {
+    return this.isUpdateOperation ? 'Atualizando dados do cliente' : 'Novo cliente';
   }
 
   private loadData(id) {

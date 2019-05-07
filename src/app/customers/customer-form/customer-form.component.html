@@ -1,5 +1,5 @@
 <thf-page-edit
-  t-title="Novo cliente"
+  [t-title]="title"
   [t-disable-submit]="formCustomer.invalid">
 
   <form #formCustomer="ngForm">
@@ -10,14 +10,16 @@
       name="name"
       [(ngModel)]="customer.name"
       t-required
-      t-label="Nome completo">
+      t-label="Nome completo"
+      [t-disabled]="isUpdateOperation">
     </thf-input>
 
     <thf-email class="thf-md-5"
       name="email"
       [(ngModel)]="customer.email"
       t-required
-      t-label="E-mail">
+      t-label="E-mail"
+      [t-disabled]="isUpdateOperation">
     </thf-email>
 
     <thf-switch class="thf-md-2"
@@ -26,7 +28,8 @@
       t-required
       t-label-off="Inativo"
       t-label-on="Ativo"
-      t-label="Status">
+      t-label="Status"
+      [t-disabled]="isUpdateOperation">
     </thf-switch>
 
     <thf-input class="thf-md-3"
