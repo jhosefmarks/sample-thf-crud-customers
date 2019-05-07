@@ -63,11 +63,11 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
 
     customer.status = customer.status ? 'Active' : 'Inactive';
 
-    this.customerSub = this.httpClient.post(this.url, customer).subscribe(() => {
-      this.thfNotification.success('Cliente cadastrado com sucesso');
-
-      this.router.navigateByUrl('/customers');
-    });
+    this.customerSub = this.isUpdateOperation
+      ? this.httpClient.put(`${this.url}/${customer.id}`, customer)
+        .subscribe(() => this.navigateToList('Cliente atualizado com sucesso'))
+      : this.httpClient.post(this.url, customer)
+        .subscribe(() => this.navigateToList('Cliente cadastrado com sucesso'));
   }
 
   get isUpdateOperation() {
@@ -81,6 +81,12 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
   private loadData(id) {
     this.customerSub = this.httpClient.get(`${this.url}/${id}`)
       .subscribe(response => this.customer = response);
+  }
+
+  private navigateToList(msg: string) {
+    this.thfNotification.success(msg);
+
+    this.router.navigateByUrl('/customers');
   }
 
 }
