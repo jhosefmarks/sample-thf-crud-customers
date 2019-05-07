@@ -93,7 +93,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ];
 
   public readonly tableActions: Array<ThfTableAction> = [
-    { action: this.onViewCustomer.bind(this), label: 'Visualizar' }
+    { action: this.onViewCustomer.bind(this), label: 'Visualizar' },
+    { action: this.onEditCustomer.bind(this), label: 'Editar' }
   ];
 
   public city: string;
@@ -183,6 +184,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     addDisclaimers('status', this.status ? this.status.join(',') : '', 'Status');
 
     this.advancedFilter.close();
+  }
+
+  private onEditCustomer(customer) {
+    this.router.navigateByUrl(`/customers/edit/${customer.id}`);
   }
 
   private onNewCustomer() {
