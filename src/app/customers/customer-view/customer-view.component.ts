@@ -34,6 +34,10 @@ export class CustomerViewComponent implements OnDestroy, OnInit {
     this.router.navigateByUrl('customers');
   }
 
+  edit() {
+    this.router.navigateByUrl(`customers/edit/${this.customer.id}`);
+  }
+
   private loadData(id) {
     this.customerSub = this.httpClient.get(`${this.url}/${id}`)
       .pipe(

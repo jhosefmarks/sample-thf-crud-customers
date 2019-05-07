@@ -8,7 +8,8 @@ import { CustomerViewComponent } from './customer-view/customer-view.component';
 const routes: Routes = [
   { path: '', component: CustomerListComponent },
   { path: 'new', component: CustomerFormComponent },
-  { path: 'view/:id', component: CustomerViewComponent }
+  { path: 'view/:id', component: CustomerViewComponent },
+  { path: 'edit/:id', component: CustomerFormComponent }
 ];
 
 @NgModule({
