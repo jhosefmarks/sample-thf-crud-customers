@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification';
@@ -80,6 +81,13 @@ export class CustomerFormComponent implements OnDestroy, OnInit {
 
   private loadData(id) {
     this.customerSub = this.httpClient.get(`${this.url}/${id}`)
+      .pipe(
+        map((customer: any) => {
+          customer.status = customer.status === 'Active';
+
+          return customer;
+        })
+      )
       .subscribe(response => this.customer = response);
   }
 
