@@ -94,7 +94,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   public readonly tableActions: Array<ThfTableAction> = [
     { action: this.onViewCustomer.bind(this), label: 'Visualizar' },
-    { action: this.onEditCustomer.bind(this), label: 'Editar' }
+    { action: this.onEditCustomer.bind(this), disabled: this.canEditCustomer.bind(this), label: 'Editar' }
   ];
 
   public city: string;
@@ -133,6 +133,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     }
 
     this.loadData(params);
+  }
+
+  private canEditCustomer(customer) {
+    return customer.status !== 'Active';
   }
 
   private loadData(params: { page?: number, search?: string } = { }) {
