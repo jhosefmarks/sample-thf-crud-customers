@@ -8,6 +8,7 @@ import { ThfCheckboxGroupOption, ThfComboOption, ThfRadioGroupOption } from '@to
 import { ThfDisclaimer } from '@totvs/thf-ui/components/thf-disclaimer';
 import { ThfDisclaimerGroup } from '@totvs/thf-ui/components/thf-disclaimer-group';
 import { ThfModalComponent, ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
+import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification';
 import { ThfPageFilter, ThfPageAction } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableAction, ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
 
@@ -19,6 +20,7 @@ import { ThfTableAction, ThfTableColumn } from '@totvs/thf-ui/components/thf-tab
 export class CustomerListComponent implements OnInit, OnDestroy {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
+  private customerRemoveSub: Subscription;
   private customersSub: Subscription;
   private page: number = 1;
   private searchTerm: string = '';
@@ -94,7 +96,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   public readonly tableActions: Array<ThfTableAction> = [
     { action: this.onViewCustomer.bind(this), label: 'Visualizar' },
-    { action: this.onEditCustomer.bind(this), disabled: this.canEditCustomer.bind(this), label: 'Editar' }
+    { action: this.onEditCustomer.bind(this), disabled: this.canEditCustomer.bind(this), label: 'Editar' },
+    { action: this.onRemoveCustomer.bind(this), label: 'Remover', type: 'danger', separator: true }
   ];
 
   public city: string;
@@ -107,7 +110,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   @ViewChild('advancedFilter') advancedFilter: ThfModalComponent;
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient, private router: Router, private thfNotification: ThfNotificationService) { }
 
   ngOnInit() {
     this.loadData();
@@ -115,6 +118,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.customersSub.unsubscribe();
+
+    if (this.customerRemoveSub) {
+      this.customerRemoveSub.unsubscribe();
+    }
   }
 
   openAdvancedFilter() {
@@ -196,6 +203,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   private onNewCustomer() {
     this.router.navigateByUrl('/customers/new');
+  }
+
+  private onRemoveCustomer(customer) {
+    this.customerRemoveSub = this.httpClient.delete(`${this.url}/${customer.id}`)
+      .subscribe(() => {
+        this.thfNotification.warning('Cadastro do cliente apagado com sucesso.');
+      });
   }
 
   private onViewCustomer(customer) {
