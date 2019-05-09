@@ -4,7 +4,8 @@
   [t-disclaimer-group]="disclaimerGroup"
   [t-filter]="filter">
 
-  <thf-table
+  <thf-table #table
+    t-checkbox
     t-sort="true"
     [t-actions]="tableActions"
     [t-columns]="columns"
