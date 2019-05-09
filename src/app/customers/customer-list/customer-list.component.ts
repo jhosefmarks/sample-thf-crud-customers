@@ -209,6 +209,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customerRemoveSub = this.httpClient.delete(`${this.url}/${customer.id}`)
       .subscribe(() => {
         this.thfNotification.warning('Cadastro do cliente apagado com sucesso.');
+
+        this.customers.splice(this.customers.indexOf(customer), 1);
       });
   }
 
