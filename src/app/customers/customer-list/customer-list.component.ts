@@ -10,7 +10,7 @@ import { ThfDisclaimerGroup } from '@totvs/thf-ui/components/thf-disclaimer-grou
 import { ThfModalComponent, ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
 import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification';
 import { ThfPageFilter, ThfPageAction } from '@totvs/thf-ui/components/thf-page';
-import { ThfTableAction, ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
+import { ThfTableAction, ThfTableColumn, ThfTableComponent } from '@totvs/thf-ui/components/thf-table';
 
 @Component({
   selector: 'app-customer-list',
@@ -21,13 +21,15 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   private readonly url: string = 'https://sample-customers-api.herokuapp.com/api/thf-samples/v1/people';
   private customerRemoveSub: Subscription;
+  private customersRemoveSub: Subscription;
   private customersSub: Subscription;
   private page: number = 1;
   private searchTerm: string = '';
   private searchFilters: any;
 
   public readonly actions: Array<ThfPageAction> = [
-    { action: this.onNewCustomer.bind(this), label: 'Cadastrar', icon: 'thf-icon-user-add' }
+    { action: this.onNewCustomer.bind(this), label: 'Cadastrar', icon: 'thf-icon-user-add' },
+    { action: this.onRemoveCustomers.bind(this), label: 'Remover clientes' }
   ];
 
   public readonly advancedFilterPrimaryAction: ThfModalAction = {
@@ -109,6 +111,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   public status: Array<string> = [];
 
   @ViewChild('advancedFilter') advancedFilter: ThfModalComponent;
+  @ViewChild('table') table: ThfTableComponent;
 
   constructor(private httpClient: HttpClient, private router: Router, private thfNotification: ThfNotificationService) { }
 
@@ -121,6 +124,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
     if (this.customerRemoveSub) {
       this.customerRemoveSub.unsubscribe();
+    }
+
+    if (this.customersRemoveSub) {
+      this.customersRemoveSub.unsubscribe();
     }
   }
 
@@ -211,6 +218,20 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         this.thfNotification.warning('Cadastro do cliente apagado com sucesso.');
 
         this.customers.splice(this.customers.indexOf(customer), 1);
+      });
+  }
+
+  private onRemoveCustomers() {
+    const selectedCustomers = this.table.getSelectedRows();
+    const customersWithId = selectedCustomers.map(customer => ({ id: customer.id}));
+
+    this.customersRemoveSub = this.httpClient.request('delete', this.url, { body: customersWithId } )
+      .subscribe(() => {
+        this.thfNotification.warning('Clientes apagados em lote com sucesso.');
+
+        selectedCustomers.forEach(customer => {
+          this.customers.splice(this.customers.indexOf(customer), 1);
+        });
       });
   }
 
